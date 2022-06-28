@@ -1,13 +1,13 @@
 {
-  "name": "boilerplate-crajs",
+  "name": "cards-against-humanity",
   "private": false,
   "license": "MIT",
   "author": {
     "name": "Henrique Albuquerque",
     "email": "ehf.albuquerque@gmail.com",
-    "url": "https://github.com/rickyalbuq"
+    "url": "https://github.com/rickyalbuq/cards"
   },
-  "description": "A simple project starter to work with TypeScript, React, Jest and Styled Components.",
+  "description": "An web version of the famous card game Cards Against Humanity",
   "version": "0.1.0",
   "scripts": {
     "start": "react-scripts start",
