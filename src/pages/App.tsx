@@ -1,5 +1,5 @@
 import React from 'react';
-import Text from 'components/Text';
+import Modal from 'components/Modal';
 
 import GlobalStyles from 'styles/globals';
 import { Container } from 'styles/common';
@@ -14,7 +14,9 @@ function App() {
       <ThemeProvider theme={themeSelected}>
         <GlobalStyles />
         <Container>
-          <Text />
+          <Modal title="Cards against humanity." subtitle="by RickyAlbuq">
+            test
+          </Modal>
         </Container>
       </ThemeProvider>
     </ContextTheme>
