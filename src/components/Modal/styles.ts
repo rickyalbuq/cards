@@ -31,3 +31,12 @@ export const Subtitle = styled.p`
 
   padding-bottom: ${({ theme }) => theme.spacings.xxl};
 `;
+
+export const InnerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacings.sm};
+  width: 100%;
+`;

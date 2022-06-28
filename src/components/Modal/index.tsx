@@ -13,7 +13,7 @@ const Modal: React.FC<Props> = ({ title, subtitle, children }) => {
       <S.Card>
         <S.Title>{title}</S.Title>
         <S.Subtitle>{subtitle}</S.Subtitle>
-        {children}
+        <S.InnerWrapper>{children}</S.InnerWrapper>
       </S.Card>
     </S.Wrapper>
   );
