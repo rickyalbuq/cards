@@ -5,6 +5,7 @@ const dark: DefaultTheme = {
   name: 'dark',
   ...common,
   colors: {
+    bgBody: '#121212',
     bgLow: '#1C1E23',
     bgMedium: '#282A31',
     bgHigh: '#3F424D',

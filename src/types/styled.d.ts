@@ -5,6 +5,7 @@ declare module 'styled-components' {
     name: 'light' | 'dark';
 
     colors: {
+      bgBody: string;
       bgLow: string;
       bgMedium: string;
       bgHigh: string;
