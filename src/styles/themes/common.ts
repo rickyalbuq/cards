@@ -44,7 +44,7 @@ const common = {
   },
 
   shadows: {
-    card: 'inset 0px 4px 4px #1C1E23'
+    input: 'inset 0px 4px 4px #1C1E23'
   },
 
   radius: {

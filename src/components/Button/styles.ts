@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 export const Cta = styled(Link)(
   ({ theme }) => css`
     width: 100%;
-    padding: ${theme.spacings.md};
-    border-radius: ${theme.radius.md};
+    padding: ${theme.spacings.sm};
+    border-radius: ${theme.radius.sm};
     background: ${theme.colors.bgHigh};
     text-align: center;
     color: ${theme.colors.txtMedium};
-    line-height: ${theme.lineHeights.link};
+    line-height: ${theme.lineHeights.heading};
     &:hover {
       color: ${theme.colors.txtHigh};
     }

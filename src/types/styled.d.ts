@@ -55,7 +55,7 @@ declare module 'styled-components' {
     };
 
     shadows: {
-      card: string;
+      input: string;
     };
 
     radius: {
