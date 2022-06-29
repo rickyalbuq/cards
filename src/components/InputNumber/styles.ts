@@ -53,14 +53,14 @@ export const Btn = styled.button.attrs(() => ({
     width: 100%;
     padding: ${theme.spacings.sm};
     border: none;
-    background: ${theme.colors.bgHigh};
+    background: ${theme.colors.bgMedium};
     text-align: center;
     color: ${theme.colors.txtMedium};
     font-size: ${theme.fontSizes.sm};
     line-height: ${theme.lineHeights.heading};
     &:hover {
       cursor: pointer;
-      color: ${theme.colors.txtHigh};
+      background: ${theme.colors.bgHigh};
     }
   `
 );

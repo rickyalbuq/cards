@@ -6,12 +6,12 @@ export const Cta = styled(Link)(
     width: 100%;
     padding: ${theme.spacings.sm};
     border-radius: ${theme.radius.sm};
-    background: ${theme.colors.bgHigh};
+    background: ${theme.colors.bgMedium};
     text-align: center;
     color: ${theme.colors.txtMedium};
     line-height: ${theme.lineHeights.heading};
     &:hover {
-      color: ${theme.colors.txtHigh};
+      background: ${theme.colors.bgHigh};
     }
   `
 );
@@ -21,7 +21,7 @@ export const Ghost = styled(Link)(
     width: 100%;
     padding: ${theme.spacings.xs};
     border-radius: ${theme.radius.sm};
-    background: ${theme.colors.bgMedium};
+    background: ${theme.colors.bgLow};
     text-align: center;
     color: ${theme.colors.txtLow};
     line-height: ${theme.lineHeights.link};

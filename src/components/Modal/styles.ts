@@ -7,15 +7,13 @@ export const Wrapper = styled.main`
 
   width: 100%;
   height: 100vh;
-
-  background: ${({ theme }) => theme.colors.bgLow};
 `;
 
 export const Card = styled.div`
   width: 454px;
   padding: ${({ theme }) => theme.spacings.xxxl};
   border-radius: ${({ theme }) => theme.radius.xl};
-  background: ${({ theme }) => theme.colors.bgMedium};
+  background: ${({ theme }) => theme.colors.bgLow};
 `;
 
 export const Title = styled.h1`
