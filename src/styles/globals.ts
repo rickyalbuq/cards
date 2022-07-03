@@ -9,6 +9,7 @@ export default createGlobalStyle`
   * {
     margin: 0;
     padding: 0;
+    font-family: 'Poppins', sans-serif;
     font-weight: 400;
     box-sizing: border-box;
     text-decoration: none;
@@ -17,7 +18,6 @@ export default createGlobalStyle`
   body {
     background: ${({ theme }) => theme.colors.bgBody};
     color: ${({ theme }) => theme.colors.txtMedium};
-    font-family: 'Poppins', sans-serif;
     height: 100vh;
     width: 100vw;
   }
