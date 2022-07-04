@@ -11,9 +11,18 @@ export const Wrapper = styled.main`
 
 export const Card = styled.div`
   width: 454px;
+  height: 583px;
+  display: flex;
+  flex-direction: column;
   padding: ${({ theme }) => theme.spacings.xxxl};
   border-radius: ${({ theme }) => theme.radius.xl};
   background: ${({ theme }) => theme.colors.bgLow};
+`;
+
+export const Header = styled.header`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacings.xs};
 `;
 
 export const Title = styled.h1`
@@ -27,7 +36,9 @@ export const Subtitle = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   line-height: ${({ theme }) => theme.lineHeights.paragraph};
 
-  padding-bottom: ${({ theme }) => theme.spacings.xxl};
+  & strong {
+    font-weight: 700;
+  }
 `;
 
 export const InnerWrapper = styled.div`
@@ -35,6 +46,15 @@ export const InnerWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: ${({ theme }) => theme.spacings.sm};
   width: 100%;
+  margin-top: auto;
+  gap: ${({ theme }) => theme.spacings.sm};
+`;
+
+export const btnBottom = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacings.sm};
+  margin-top: ${({ theme }) => theme.spacings.lg};
 `;
