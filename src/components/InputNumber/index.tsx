@@ -6,7 +6,7 @@ interface Props {
 }
 
 const InputNumber: React.FC<Props> = ({ label }) => {
-  const [quantity, setQuantity] = useState<number>(1);
+  const [quantity, setQuantity] = useState<number>(10);
 
   const handleChange = (e: Event): void => {
     setQuantity(Number((e.target as HTMLInputElement).value));
