@@ -8,15 +8,14 @@ export const Wrapper = styled.div`
 
 export const Label = styled.label(
   ({ theme }) => css`
+    white-space: nowrap;
     color: ${theme.colors.txtHigh};
     font-size: ${theme.fontSizes.xs};
     line-height: ${theme.lineHeights.paragraph};
   `
 );
 
-export const Input = styled.input.attrs(() => ({
-  type: 'text'
-}))(
+export const Input = styled.input(
   ({ theme }) => css`
     width: 100%;
     padding: ${theme.spacings.sm};
@@ -33,6 +32,14 @@ export const Input = styled.input.attrs(() => ({
       font-style: italic;
       font-family: 'Poppins', sans-serif;
       color: ${theme.colors.txtMedium};
+    }
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    & {
+      -moz-appearance: textfield;
     }
   `
 );
