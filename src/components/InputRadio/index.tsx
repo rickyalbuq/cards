@@ -1,10 +1,5 @@
-import { useTheme } from 'context/ThemeContext';
 import React, { useState } from 'react';
 import * as S from './styles';
-
-type Style = {
-  [prop: string]: string;
-};
 
 interface Props {
   label: string;
@@ -12,19 +7,10 @@ interface Props {
 }
 
 const InputRadio: React.FC<Props> = ({ label, options }) => {
-  const { themeSelected } = useTheme();
-  const [clickedID, setClickedID] = useState<number>(0);
+  const [clickedID, setClickedID] = useState<number>(1);
 
-  const handleActiveStatus = (status: boolean): Style => {
-    if (themeSelected.name === 'dark' && status) {
-      return { background: '#3F424D' };
-    } else if (themeSelected.name === 'dark' && !status) {
-      return { background: '#282A31' };
-    } else if (themeSelected.name === 'light' && status) {
-      return { background: '#FAFAFA' };
-    } else {
-      return { background: '#EEEEEE' };
-    }
+  const handleClick = (i: number) => {
+    setClickedID(i);
   };
 
   return (
@@ -33,12 +19,14 @@ const InputRadio: React.FC<Props> = ({ label, options }) => {
       <S.InnerWrapper>
         {options &&
           options.map((option: string, i: number) => {
+            const isActive = i === clickedID;
+
             if (i === 0) {
               return (
                 <S.BtnLeft
                   key={i}
-                  onClick={() => setClickedID(i)}
-                  style={handleActiveStatus(i === clickedID)}
+                  onClick={() => handleClick(i)}
+                  active={isActive}
                 >
                   {option}
                 </S.BtnLeft>
@@ -47,19 +35,15 @@ const InputRadio: React.FC<Props> = ({ label, options }) => {
               return (
                 <S.BtnRight
                   key={i}
-                  onClick={() => setClickedID(i)}
-                  style={handleActiveStatus(i === clickedID)}
+                  onClick={() => handleClick(i)}
+                  active={isActive}
                 >
                   {option}
                 </S.BtnRight>
               );
             } else {
               return (
-                <S.Btn
-                  key={i}
-                  onClick={() => setClickedID(i)}
-                  style={handleActiveStatus(i === clickedID)}
-                >
+                <S.Btn key={i} onClick={() => handleClick(i)} active={isActive}>
                   {option}
                 </S.Btn>
               );

@@ -21,13 +21,13 @@ export const InnerWrapper = styled.div`
 
 export const Btn = styled.button.attrs(() => ({
   type: 'button'
-}))(
-  ({ theme }) => css`
+}))<{ active: boolean }>(
+  ({ theme, active }) => css`
     width: 100%;
     padding: ${theme.spacings.sm};
     border: none;
     border-radius: 0;
-    background: ${theme.colors.bgMedium};
+    background: ${!active ? theme.colors.bgMedium : theme.colors.bgHigh};
     text-align: center;
     color: ${theme.colors.txtMedium};
     font-size: ${theme.fontSizes.sm};
