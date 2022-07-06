@@ -1,46 +1,31 @@
-import React from 'react';
-import {
+import React, {
   createContext,
   ReactNode,
   useCallback,
   useContext,
   useState
 } from 'react';
+
 import { DefaultTheme } from 'styled-components';
 import light from 'styles/themes/light';
 import dark from 'styles/themes/dark';
-
-type ThemeType = {
-  [key: string]: DefaultTheme;
-};
-
-type themeContextType = {
-  handleTheme(theme?: string): void;
-  themeSelected: DefaultTheme;
-  themes: ThemeType;
-};
 
 type Props = {
   children: ReactNode;
 };
 
-export const themes: ThemeType = {
-  light: light,
-  dark: dark
+type themeContextType = {
+  handleTheme(theme?: string): void;
+  themeSelected: DefaultTheme;
 };
 
-export const themeContextDefaultValues: themeContextType = {
+const themeContextDefaultValues: themeContextType = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   handleTheme: () => {},
-  themeSelected: dark,
-  themes
+  themeSelected: dark
 };
 
 const ThemeContext = createContext<themeContextType>(themeContextDefaultValues);
-
-export function useTheme() {
-  return useContext(ThemeContext);
-}
 
 export function ThemeProvider({ children }: Props) {
   const [themeSelected, setThemeSelected] = useState<DefaultTheme>(dark);
@@ -60,13 +45,24 @@ export function ThemeProvider({ children }: Props) {
 
   const value = {
     handleTheme,
-    themeSelected,
-    themes
+    themeSelected
   };
 
   return (
-    <>
-      <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
-    </>
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 }
+
+export function useTheme() {
+  return useContext(ThemeContext);
+}
+
+/* Ineffective
+  const [theme, setTheme] = useState<DefaultTheme>(dark);
+  useLayoutEffect(() => {
+    window.matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', (e: Event) => {
+        setTheme(e ? dark : light);
+      });
+  }, []);
+*/

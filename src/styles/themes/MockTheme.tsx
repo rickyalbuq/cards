@@ -2,18 +2,14 @@ import React from 'react';
 import { ReactNode } from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import { themeContextDefaultValues } from 'context/ThemeContext';
+import dark from 'styles/themes/dark';
 
 type Props = {
   children: ReactNode;
 };
 
 const MockTheme = ({ children }: Props) => {
-  return (
-    <ThemeProvider theme={themeContextDefaultValues.themeSelected}>
-      {children}
-    </ThemeProvider>
-  );
+  return <ThemeProvider theme={dark}>{children}</ThemeProvider>;
 };
 
 export default MockTheme;
