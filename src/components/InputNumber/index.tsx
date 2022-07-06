@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import * as S from './styles';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 const InputNumber: React.FC<Props> = ({ label }) => {
   const [quantity, setQuantity] = useState<number>(10);
 
-  const handleChange = (e: Event): void => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuantity(Number((e.target as HTMLInputElement).value));
   };
 
@@ -16,7 +16,6 @@ const InputNumber: React.FC<Props> = ({ label }) => {
     let acc = Number(quantity);
 
     isNaN(value) ? (value = 1) : (acc += value);
-
     acc = Math.max(acc, 1);
 
     setQuantity(acc);
@@ -26,7 +25,7 @@ const InputNumber: React.FC<Props> = ({ label }) => {
     <S.Wrapper>
       <S.Label>
         {label}
-        <S.Input onChange={() => handleChange} value={quantity} />
+        <S.Input onChange={handleChange} value={quantity} />
       </S.Label>
       <S.BtnWrapper>
         <S.BtnSub onClick={() => addOrSub(-1)}>-</S.BtnSub>
