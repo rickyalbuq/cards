@@ -50,11 +50,3 @@ export const InnerWrapper = styled.div`
   margin-top: auto;
   gap: ${({ theme }) => theme.spacings.sm};
 `;
-
-export const btnBottom = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacings.sm};
-  margin-top: ${({ theme }) => theme.spacings.lg};
-`;
