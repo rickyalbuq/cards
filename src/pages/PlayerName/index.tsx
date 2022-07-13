@@ -49,6 +49,8 @@ const PlayerName = () => {
 
       await schema.validate(data, { abortEarly: false });
 
+      formRef.current?.setErrors({});
+
       dispatch(
         createUsername({
           room,

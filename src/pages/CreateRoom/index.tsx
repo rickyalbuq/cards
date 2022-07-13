@@ -57,6 +57,8 @@ const CreateRoom = () => {
 
       await schema.validate(data, { abortEarly: false });
 
+      formRef.current?.setErrors({});
+
       const isPrivate = data.isPrivate === 'private' ? true : false;
 
       dispatch(

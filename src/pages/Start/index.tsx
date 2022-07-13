@@ -42,6 +42,8 @@ const Start = () => {
 
       await schema.validate(data, { abortEarly: false });
 
+      formRef.current?.setErrors({});
+
       dispatch(enterRoom({ room: Number(data.room) }));
 
       setRedirect({
