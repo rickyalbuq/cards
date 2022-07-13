@@ -40,8 +40,7 @@ const gameSlice = createSlice({
     },
     createRoom(state, action: PayloadAction<Game>) {
       return {
-        ...action.payload,
-        room: state.room
+        ...action.payload
       };
     }
   }
