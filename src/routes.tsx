@@ -9,6 +9,7 @@ import GlobalStyles from 'styles/globals';
 import { Container } from 'styles/common';
 import { ThemeProvider } from 'styled-components';
 import { ThemeProvider as ContextTheme, useTheme } from 'context/ThemeContext';
+import { Socket, SocketContext } from 'context/ConnectionContext';
 
 import Start from 'pages/Start';
 import PlayerName from 'pages/PlayerName';
@@ -27,19 +28,21 @@ const Routes: React.FC = () => {
       <ThemeProvider theme={themeSelected}>
         <GlobalStyles />
         <Container>
-          <Router>
-            <Switch>
-              <Route path="" element={<Start />} />
-              <Route path="player" element={<PlayerName />} />
-              <Route path="create" element={<CreateRoom />} />
-              <Route path="rules" element={<Rules />} />
-              <Route path="choose" element={<ChooseRoom />} />
-              <Route path="room/:id/player" element={<PlayerName />} />
-              <Route path="room/:id/score" element={<EndGame />} />
-              <Route path="room/:id/giveup" element={<GiveUp />} />
-              <Route path="room/:id/loading" element={<LoadingRoom />} />
-            </Switch>
-          </Router>
+          <SocketContext.Provider value={Socket}>
+            <Router>
+              <Switch>
+                <Route path="" element={<Start />} />
+                <Route path="player" element={<PlayerName />} />
+                <Route path="create" element={<CreateRoom />} />
+                <Route path="rules" element={<Rules />} />
+                <Route path="choose" element={<ChooseRoom />} />
+                <Route path="room/:id/player" element={<PlayerName />} />
+                <Route path="room/:id/score" element={<EndGame />} />
+                <Route path="room/:id/giveup" element={<GiveUp />} />
+                <Route path="room/:id/loading" element={<LoadingRoom />} />
+              </Switch>
+            </Router>
+          </SocketContext.Provider>
         </Container>
       </ThemeProvider>
     </ContextTheme>

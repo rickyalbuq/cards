@@ -1,9 +1,7 @@
-import { createContext, useContext } from 'react';
-import io, { Socket } from 'socket.io-client';
+import { createContext } from 'react';
+import io, { Socket as sk } from 'socket.io-client';
 
-const socket = io('http://localhost:3001');
-const Connection = createContext<Socket>(socket);
+const Socket = io('http://localhost:3001');
+const SocketContext = createContext<sk>(Socket);
 
-export function useSocket() {
-  return useContext(Connection);
-}
+export { Socket, SocketContext };

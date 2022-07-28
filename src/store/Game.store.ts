@@ -8,7 +8,7 @@ interface Message {
 
 export interface Game {
   room: number;
-  createdAt: Date;
+  createdAt: string;
   isPrivate: boolean;
   maxMatches: number;
   currentMatch: number;
@@ -21,7 +21,7 @@ interface EnterRoom {
 
 const initialState = {
   room: 0,
-  createdAt: new Date(),
+  createdAt: String(new Date().getTime()),
   isPrivate: true,
   maxMatches: 0,
   currentMatch: 0,
