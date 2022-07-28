@@ -11,7 +11,7 @@ export const Wrapper = styled.main`
 
 export const Card = styled.div`
   width: 454px;
-  height: 583px;
+  height: 654px;
   display: flex;
   flex-direction: column;
   padding: ${({ theme }) => theme.spacings.xxxl};
