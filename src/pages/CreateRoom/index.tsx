@@ -64,7 +64,7 @@ const CreateRoom = () => {
       dispatch(
         createRoom({
           room,
-          createdAt: new Date(),
+          createdAt: String(new Date().getTime()),
           isPrivate,
           maxMatches: data.maxMatches,
           currentMatch: 0,
