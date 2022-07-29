@@ -8,6 +8,7 @@ import Modal from 'components/Modal';
 import Button from 'components/Button';
 import RoomCard from 'components/RoomCard';
 import { Footer, VerticalSlider } from 'styles/utils';
+import { createPlayerByRoom } from 'store/Player.store';
 
 interface GameList extends Game {
   players: number;
@@ -18,6 +19,7 @@ type Data = Omit<GameList, 'players'>;
 interface GetRoomsData {
   payload: {
     rooms?: GameList[];
+    playerId: string;
     message: string;
   };
 }
@@ -37,8 +39,9 @@ const ChooseRoom = () => {
     to: ''
   });
 
-  function handleClick(data: Game) {
+  function handleClick(data: Game, playerId?: string) {
     dispatch(createRoom({ ...data }));
+    dispatch(createPlayerByRoom({ playerId: playerId || '' }));
 
     setRedirect({
       state: true,
@@ -56,6 +59,7 @@ const ChooseRoom = () => {
   }, [socket]);
 
   const rooms = usePayload?.payload.rooms;
+  const playerId = usePayload?.payload.playerId;
   const message = usePayload?.payload.message;
 
   if (redirect.state) {
@@ -66,9 +70,9 @@ const ChooseRoom = () => {
         title="Escolha a sala."
         subtitle="Escolha uma sala para entrar na partida."
       >
-        {rooms ? (
-          <VerticalSlider maxsliderheight={302}>
-            {rooms.map((room) => {
+        <VerticalSlider maxsliderheight={302}>
+          {rooms ? (
+            rooms.map((room) => {
               const roomID = String(room.room);
               const data: Data = room;
 
@@ -79,14 +83,14 @@ const ChooseRoom = () => {
                   players={room.players}
                   maxMatches={room.maxMatches}
                   createdAt={room.createdAt}
-                  onClick={() => handleClick(data)}
+                  onClick={() => handleClick(data, playerId)}
                 />
               );
-            })}
-          </VerticalSlider>
-        ) : (
-          <p>{message}</p>
-        )}
+            })
+          ) : (
+            <p>{message}</p>
+          )}
+        </VerticalSlider>
         <Footer>
           <Button type="ghost" toGo="/" label="Voltar" />
         </Footer>

@@ -13,6 +13,10 @@ interface CreateUsername {
   room: number;
 }
 
+interface CreatePlayerByRoom {
+  playerId: string;
+}
+
 const initialState = {
   playerId: '',
   username: '',
@@ -31,12 +35,19 @@ const playerSlice = createSlice({
         username: action.payload.username
       };
     },
+    createPlayerByRoom(state, action: PayloadAction<CreatePlayerByRoom>) {
+      return {
+        ...state,
+        playerId: action.payload.playerId
+      };
+    },
     remove(state) {
       state;
     }
   }
 });
 
-export const { createUsername, remove } = playerSlice.actions;
+export const { createUsername, createPlayerByRoom, remove } =
+  playerSlice.actions;
 
 export default playerSlice.reducer;

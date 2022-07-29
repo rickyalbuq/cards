@@ -1,6 +1,8 @@
-import React, { useRef, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useContext, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { createRoom } from 'store/Game.store';
+import { SocketContext } from 'context/ConnectionContext';
 
 import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
@@ -9,7 +11,7 @@ import Modal from 'components/Modal';
 import Button from 'components/Button';
 import { InputNumber, InputRadio } from 'components/Input';
 import { Footer, Form } from 'styles/utils';
-import { createRoom } from 'store/Game.store';
+import { createPlayerByRoom } from 'store/Player.store';
 
 interface RedirectPage {
   state: boolean;
@@ -30,6 +32,7 @@ const room = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
 const CreateRoom = () => {
   const formRef = useRef<FormHandles>(null);
   const dispatch = useDispatch();
+  const socket = useContext(SocketContext);
   const [redirect, setRedirect] = useState<RedirectPage>({
     state: false,
     to: ''
@@ -71,6 +74,37 @@ const CreateRoom = () => {
           messages: []
         })
       );
+      dispatch(createPlayerByRoom({ playerId: socket.id }));
+
+      socket.emit(
+        'createRoom',
+        JSON.stringify({
+          room,
+          createdAt: String(new Date().getTime()),
+          isPrivate,
+          maxMatches: data.maxMatches,
+          currentMatch: 0,
+          messages: []
+        })
+      );
+
+      socket.on('createRoom', (payload) => {
+        if (payload.message !== 'Room created successfully') {
+          socket.emit(
+            'createRoom',
+            JSON.stringify({
+              room,
+              createdAt: String(new Date().getTime()),
+              isPrivate,
+              maxMatches: data.maxMatches,
+              currentMatch: 0,
+              messages: []
+            })
+          );
+        }
+      });
+
+      socket.off('createRoom');
 
       setRedirect({
         state: true,

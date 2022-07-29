@@ -3,9 +3,7 @@ export function padTo2Digits(num: number) {
 }
 
 export function calcMatchDuration(createdAt: string): string {
-  const date = new Date(createdAt);
-
-  const diff = Math.abs(Number(date) - Number(new Date()));
+  const diff = Math.abs(Number(createdAt) - Number(new Date().getTime()));
   const diffHours = Math.trunc((diff / (60000 * 60)) % 24);
   const diffMinutes = Math.trunc((diff / 60000) % 60);
   const diffSeconds = Math.trunc((diff / 1000) % 60);
