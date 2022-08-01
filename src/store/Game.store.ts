@@ -10,7 +10,7 @@ const initialState = {
   roomId: 0,
   createdAt: new Date(),
   isPrivate: true,
-  maxMatches: 0,
+  minMatches: 0,
   currentMatch: 0
 } as Room;
 

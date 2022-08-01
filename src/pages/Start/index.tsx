@@ -60,7 +60,7 @@ const Start = () => {
               roomId: Number(data.roomId),
               createdAt: payload.createdAt,
               isPrivate: payload.isPrivate,
-              maxMatches: payload.maxMatches,
+              minMatches: payload.minMatches,
               currentMatch: payload.currentMatch
             })
           );

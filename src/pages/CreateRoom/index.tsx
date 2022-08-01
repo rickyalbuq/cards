@@ -19,7 +19,7 @@ interface Errors {
 }
 
 interface Data {
-  maxMatches: number;
+  minMatches: number;
   isPrivate: 'public' | 'private';
 }
 
@@ -37,18 +37,18 @@ const CreateRoom = () => {
 
   const addOrSub = (value: number): void => {
     const input = formRef?.current;
-    let acc = Number(input?.getFieldValue('maxMatches'));
+    let acc = Number(input?.getFieldValue('minMatches'));
 
     acc += value;
     acc = Math.max(acc, 1);
 
-    input?.setFieldValue('maxMatches', `${acc}`);
+    input?.setFieldValue('minMatches', `${acc}`);
   };
 
   async function handleSubmit(data: Data) {
     try {
       const schema = Yup.object().shape({
-        maxMatches: Yup.number()
+        minMatches: Yup.number()
           .max(30, 'No máximo 30 partidas')
           .min(5, 'No mínino 5 partidas')
           .required('O campo é obrigatório'),
@@ -65,7 +65,7 @@ const CreateRoom = () => {
         JSON.stringify({
           roomId,
           isPrivate,
-          maxMatches: data.maxMatches
+          minMatches: data.minMatches
         })
       );
 
@@ -78,7 +78,7 @@ const CreateRoom = () => {
             JSON.stringify({
               roomId,
               isPrivate,
-              maxMatches: data.maxMatches
+              minMatches: data.minMatches
             })
           );
         } else {
@@ -87,7 +87,7 @@ const CreateRoom = () => {
               roomId,
               createdAt: payload.createdAt,
               isPrivate,
-              maxMatches: data.maxMatches,
+              minMatches: data.minMatches,
               currentMatch: 1
             })
           );
@@ -128,12 +128,12 @@ const CreateRoom = () => {
           ref={formRef}
           onSubmit={handleSubmit}
           initialData={{
-            maxMatches: 10,
+            minMatches: 10,
             isPrivate: 'private'
           }}
         >
           <InputNumber
-            name="maxMatches"
+            name="minMatches"
             label="Pontos para vencer:"
             addOrSub={addOrSub}
           />

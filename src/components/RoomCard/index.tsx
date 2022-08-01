@@ -6,7 +6,7 @@ import * as S from './styles';
 interface Props {
   roomId: string;
   players: number;
-  maxMatches: number;
+  minMatches: number;
   createdAt: Date;
   onClick: MouseEventHandler;
 }
@@ -14,7 +14,7 @@ interface Props {
 const RoomCard: React.FC<Props> = ({
   roomId,
   players,
-  maxMatches,
+  minMatches,
   createdAt,
   onClick
 }) => {
@@ -33,7 +33,7 @@ const RoomCard: React.FC<Props> = ({
       <S.InnerWrapper>
         <p>
           <FiRepeat />
-          {padTo2Digits(maxMatches)} Rodadas
+          {padTo2Digits(minMatches)} Rodadas
         </p>
         <p>
           <FiClock />

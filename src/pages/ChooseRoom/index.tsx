@@ -73,7 +73,7 @@ const ChooseRoom = () => {
                   key={roomID}
                   roomId={roomID}
                   players={room.players}
-                  maxMatches={room.maxMatches}
+                  minMatches={room.minMatches}
                   createdAt={room.createdAt}
                   onClick={() => handleClick(data, playerId)}
                 />

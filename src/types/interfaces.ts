@@ -9,7 +9,7 @@ interface Room {
   roomId: number;
   createdAt: Date;
   isPrivate: boolean;
-  maxMatches: number;
+  minMatches: number;
   currentMatch: number;
 }
 
