@@ -6,7 +6,6 @@ import { FormHandles } from '@unform/core';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { createUsername } from 'store/Player.store';
-import { Game } from 'store/Game.store';
 import { RootState } from 'store';
 
 import Modal from 'components/Modal';
@@ -14,11 +13,7 @@ import Button from 'components/Button';
 import { InputText } from 'components/Input';
 import { Footer, Form } from 'styles/utils';
 import { SocketContext } from 'context/ConnectionContext';
-
-interface RedirectPage {
-  state: boolean;
-  to: string;
-}
+import { RedirectPage, Room } from 'types/interfaces';
 
 interface Data {
   username: string;
@@ -31,7 +26,7 @@ interface Errors {
 const PlayerName = () => {
   const dispatch = useDispatch();
   const socket = useContext(SocketContext);
-  const { room } = useSelector<RootState, Game>(({ game }) => game);
+  const { roomId } = useSelector<RootState, Room>(({ game }) => game);
 
   const formRef = useRef<FormHandles>(null);
 
@@ -53,12 +48,10 @@ const PlayerName = () => {
 
       await schema.validate(data, { abortEarly: false });
 
-      console.log(data);
-
       socket.emit(
         'connectPlayer',
         JSON.stringify({
-          room,
+          roomId: roomId,
           username: data.username
         })
       );
@@ -75,20 +68,18 @@ const PlayerName = () => {
             state: true,
             to: `..`
           });
-        } else if (payload.message === 'Connected successfully') {
+        } else {
           dispatch(
             createUsername({
-              room,
+              roomId,
               username: payload.username
             })
           );
 
           setRedirect({
             state: true,
-            to: `../room/${room}`
+            to: `../room/${roomId}`
           });
-        } else {
-          console.log(payload);
         }
       });
     } catch (err) {

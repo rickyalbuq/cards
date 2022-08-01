@@ -1,32 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
-interface Message {
-  username: string;
-  text: string;
-}
-
-export interface Game {
-  room: number;
-  createdAt: string;
-  isPrivate: boolean;
-  maxMatches: number;
-  currentMatch: number;
-  messages: Message[];
-}
+import { Room } from '../types/interfaces';
 
 interface EnterRoom {
-  room: number;
+  roomId: number;
 }
 
 const initialState = {
-  room: 0,
-  createdAt: String(new Date().getTime()),
+  roomId: 0,
+  createdAt: new Date(),
   isPrivate: true,
   maxMatches: 0,
-  currentMatch: 0,
-  messages: []
-} as Game;
+  currentMatch: 0
+} as Room;
 
 const gameSlice = createSlice({
   name: 'game',
@@ -35,10 +21,10 @@ const gameSlice = createSlice({
     enterRoom(state, action: PayloadAction<EnterRoom>) {
       return {
         ...state,
-        room: action.payload.room
+        roomId: action.payload.roomId
       };
     },
-    createRoom(state, action: PayloadAction<Game>) {
+    createRoom(state, action: PayloadAction<Room>) {
       return {
         ...action.payload
       };

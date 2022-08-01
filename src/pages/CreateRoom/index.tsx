@@ -12,11 +12,7 @@ import Button from 'components/Button';
 import { InputNumber, InputRadio } from 'components/Input';
 import { Footer, Form } from 'styles/utils';
 import { createPlayerByRoom } from 'store/Player.store';
-
-interface RedirectPage {
-  state: boolean;
-  to: string;
-}
+import { CreateRoomData, RedirectPage } from 'types/interfaces';
 
 interface Errors {
   [key: string]: string;
@@ -27,12 +23,13 @@ interface Data {
   isPrivate: 'public' | 'private';
 }
 
-const room = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
+const roomId = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
 
 const CreateRoom = () => {
-  const formRef = useRef<FormHandles>(null);
   const dispatch = useDispatch();
   const socket = useContext(SocketContext);
+
+  const formRef = useRef<FormHandles>(null);
   const [redirect, setRedirect] = useState<RedirectPage>({
     state: false,
     to: ''
@@ -59,56 +56,50 @@ const CreateRoom = () => {
       });
 
       await schema.validate(data, { abortEarly: false });
-
       formRef.current?.setErrors({});
 
       const isPrivate = data.isPrivate === 'private' ? true : false;
 
-      dispatch(
-        createRoom({
-          room,
-          createdAt: String(new Date().getTime()),
-          isPrivate,
-          maxMatches: data.maxMatches,
-          currentMatch: 0,
-          messages: []
-        })
-      );
-      dispatch(createPlayerByRoom({ playerId: socket.id }));
-
       socket.emit(
         'createRoom',
         JSON.stringify({
-          room,
-          createdAt: String(new Date().getTime()),
+          roomId,
           isPrivate,
-          maxMatches: data.maxMatches,
-          currentMatch: 0,
-          messages: []
+          maxMatches: data.maxMatches
         })
       );
 
-      socket.on('createRoom', (payload) => {
+      socket.on('createRoom', (response: string) => {
+        const { payload }: CreateRoomData = JSON.parse(response);
+
         if (payload.message !== 'Room created successfully') {
           socket.emit(
             'createRoom',
             JSON.stringify({
-              room,
-              createdAt: String(new Date().getTime()),
+              roomId,
               isPrivate,
-              maxMatches: data.maxMatches,
-              currentMatch: 0,
-              messages: []
+              maxMatches: data.maxMatches
             })
           );
+        } else {
+          dispatch(
+            createRoom({
+              roomId,
+              createdAt: payload.createdAt,
+              isPrivate,
+              maxMatches: data.maxMatches,
+              currentMatch: 1
+            })
+          );
+          dispatch(createPlayerByRoom({ playerId: payload.playerId }));
+
+          socket.off('createRoom');
         }
       });
 
-      socket.off('createRoom');
-
       setRedirect({
         state: true,
-        to: `../room/${room}/player`
+        to: `../room/${roomId}/player`
       });
     } catch (err) {
       const validationErrors: Errors = {};
@@ -131,7 +122,7 @@ const CreateRoom = () => {
       <Modal
         title="Criar sala."
         subtitle="Informe esse número ao seus colegas:"
-        subNumber={`${room}`}
+        subNumber={`${roomId}`}
       >
         <Form
           ref={formRef}

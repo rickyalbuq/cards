@@ -4,15 +4,15 @@ import { FiClock, FiHash, FiRepeat, FiUser } from 'react-icons/fi';
 import * as S from './styles';
 
 interface Props {
-  room: string;
+  roomId: string;
   players: number;
   maxMatches: number;
-  createdAt: string;
+  createdAt: Date;
   onClick: MouseEventHandler;
 }
 
 const RoomCard: React.FC<Props> = ({
-  room,
+  roomId,
   players,
   maxMatches,
   createdAt,
@@ -23,7 +23,7 @@ const RoomCard: React.FC<Props> = ({
       <S.InnerWrapper>
         <p>
           <FiHash />
-          {room}
+          {roomId}
         </p>
         <p>
           <FiUser />

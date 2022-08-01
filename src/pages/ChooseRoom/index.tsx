@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { createRoom, Game } from 'store/Game.store';
+import { createRoom } from 'store/Game.store';
 import { SocketContext } from 'context/ConnectionContext';
 
 import Modal from 'components/Modal';
@@ -9,43 +9,35 @@ import Button from 'components/Button';
 import RoomCard from 'components/RoomCard';
 import { Footer, VerticalSlider } from 'styles/utils';
 import { createPlayerByRoom } from 'store/Player.store';
+import { GetRoomsData, RedirectPage, Room } from 'types/interfaces';
 
-interface GameList extends Game {
-  players: number;
-}
+type Data = Omit<GetRoomsData, 'players'>;
 
-type Data = Omit<GameList, 'players'>;
-
-interface GetRoomsData {
+interface Rooms {
   payload: {
-    rooms?: GameList[];
+    rooms?: GetRoomsData[];
     playerId: string;
     message: string;
   };
-}
-
-interface RedirectPage {
-  state: boolean;
-  to: string;
 }
 
 const ChooseRoom = () => {
   const dispatch = useDispatch();
   const socket = useContext(SocketContext);
 
-  const [usePayload, setUsePayload] = useState<GetRoomsData>();
+  const [usePayload, setUsePayload] = useState<Rooms>();
   const [redirect, setRedirect] = useState<RedirectPage>({
     state: false,
     to: ''
   });
 
-  function handleClick(data: Game, playerId?: string) {
+  function handleClick(data: Room, playerId?: string) {
     dispatch(createRoom({ ...data }));
     dispatch(createPlayerByRoom({ playerId: playerId || '' }));
 
     setRedirect({
       state: true,
-      to: `../room/${data.room}/player`
+      to: `../room/${data.roomId}/player`
     });
   }
 
@@ -73,13 +65,13 @@ const ChooseRoom = () => {
         <VerticalSlider maxsliderheight={302}>
           {rooms ? (
             rooms.map((room) => {
-              const roomID = String(room.room);
+              const roomID = String(room.roomId);
               const data: Data = room;
 
               return (
                 <RoomCard
                   key={roomID}
-                  room={roomID}
+                  roomId={roomID}
                   players={room.players}
                   maxMatches={room.maxMatches}
                   createdAt={room.createdAt}

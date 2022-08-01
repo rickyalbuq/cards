@@ -1,16 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
-interface Player {
-  playerId: string;
-  username: string;
-  victories: number;
-  room: number;
-}
+import { Player } from 'types/interfaces';
 
 interface CreateUsername {
   username: string;
-  room: number;
+  roomId: number;
 }
 
 interface CreatePlayerByRoom {
@@ -21,7 +15,7 @@ const initialState = {
   playerId: '',
   username: '',
   victories: 0,
-  room: 0
+  roomId: 0
 } as Player;
 
 const playerSlice = createSlice({
@@ -31,7 +25,7 @@ const playerSlice = createSlice({
     createUsername(state, action: PayloadAction<CreateUsername>) {
       return {
         ...state,
-        room: action.payload.room,
+        roomId: action.payload.roomId,
         username: action.payload.username
       };
     },
