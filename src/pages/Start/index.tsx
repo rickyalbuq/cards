@@ -1,34 +1,34 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
 import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 
 import { useDispatch } from 'react-redux';
-import { enterRoom } from 'store/Game.store';
+import { createRoom } from 'store/Game.store';
 
 import Modal from 'components/Modal';
 import Button from 'components/Button';
 import { InputWithButton } from 'components/Input';
 import { Form } from '@unform/web';
 
-interface RedirectPage {
-  state: boolean;
-  to: string;
-}
+import { RedirectPage } from 'types/interfaces';
+import { createPlayerByRoom } from 'store/Player.store';
+import { SocketContext } from 'context/ConnectionContext';
 
 interface Errors {
   [key: string]: string;
 }
 
 interface Data {
-  room: string;
+  roomId: string;
 }
 
 const Start = () => {
   const dispatch = useDispatch();
-  const formRef = useRef<FormHandles>(null);
+  const socket = useContext(SocketContext);
 
+  const formRef = useRef<FormHandles>(null);
   const [redirect, setRedirect] = useState<RedirectPage>({
     state: false,
     to: ''
@@ -36,19 +36,46 @@ const Start = () => {
 
   async function handleSubmit(data: Data) {
     try {
+      formRef.current?.setErrors({});
+
       const schema = Yup.object().shape({
-        room: Yup.number().required('O campo é obrigatório')
+        roomId: Yup.number().required('O campo é obrigatório')
       });
 
       await schema.validate(data, { abortEarly: false });
 
-      formRef.current?.setErrors({});
+      socket.emit(
+        'getRoomById',
+        JSON.stringify({
+          roomId: Number(data.roomId)
+        })
+      );
 
-      dispatch(enterRoom({ room: Number(data.room) }));
+      socket.on('getRoomById', (response: string) => {
+        const { payload } = JSON.parse(response);
 
-      setRedirect({
-        state: true,
-        to: `../room/${data.room}`
+        if (payload.message !== 'Room not exists') {
+          dispatch(
+            createRoom({
+              roomId: Number(data.roomId),
+              createdAt: payload.createdAt,
+              isPrivate: payload.isPrivate,
+              maxMatches: payload.maxMatches,
+              currentMatch: payload.currentMatch
+            })
+          );
+
+          dispatch(createPlayerByRoom({ playerId: payload.playerId }));
+
+          setRedirect({
+            state: true,
+            to: `../room/${data.roomId}/player`
+          });
+        } else {
+          formRef?.current?.setErrors({
+            roomId: 'Sala não encontrada.'
+          });
+        }
       });
     } catch (err) {
       const validationErrors: Errors = {};
@@ -73,7 +100,7 @@ const Start = () => {
         <Button type="cta" toGo="create" label="Criar sala" />
         <Form ref={formRef} onSubmit={handleSubmit}>
           <InputWithButton
-            name="room"
+            name="roomId"
             type="number"
             placeholder="00000"
             btnLabel="Entrar"
